@@ -61,7 +61,7 @@ export class OS {
   @JoinColumn({ name: 'clientId' })
   client: Client;
 
-  @Column({ type: 'uuid' })
+  @Column({ type: 'uuid', nullable: true })
   clientId: string;
 
   @CreateDateColumn()
