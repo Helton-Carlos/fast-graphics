@@ -1,16 +1,12 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { OS, ServiceType } from './entities/os.entity';
+import { OS } from './entities/os.entity';
 import { CreateOsDto } from './dto/create-os.dto';
 import { UpdateOsDto } from './dto/update-os.dto';
 import { UserService } from '../user/user.service';
 import { ClientService } from '../client/client.service';
-
-const PRICES = {
-  [ServiceType.ADESIVO]: 35,
-  [ServiceType.LONA]: 45,
-};
+import { SERVICE_PRICES } from './enums/service-type.enum';
 
 @Injectable()
 export class OsService {
@@ -26,7 +22,7 @@ export class OsService {
     await this.clientService.findOne(createOsDto.clientId);
 
     const squareMeters = (createOsDto.width * createOsDto.height) / 10000;
-    const unitPrice = PRICES[createOsDto.serviceType];
+    const unitPrice = SERVICE_PRICES[createOsDto.serviceType];
     const totalValue = squareMeters * unitPrice;
 
     const os = this.osRepository.create({
@@ -132,7 +128,7 @@ export class OsService {
         updateOsDto.height !== undefined ? updateOsDto.height : os.height;
       const squareMeters = (width * height) / 10000;
       const unitPrice = updateOsDto.serviceType
-        ? PRICES[updateOsDto.serviceType]
+        ? SERVICE_PRICES[updateOsDto.serviceType]
         : os.unitPrice;
       const totalValue = squareMeters * unitPrice;
 
@@ -144,7 +140,7 @@ export class OsService {
     }
 
     if (updateOsDto.serviceType && !updateOsDto.width && !updateOsDto.height) {
-      const unitPrice = PRICES[updateOsDto.serviceType];
+      const unitPrice = SERVICE_PRICES[updateOsDto.serviceType];
       const totalValue = os.squareMeters * unitPrice;
       updateData.serviceType = updateOsDto.serviceType;
       updateData.unitPrice = unitPrice;

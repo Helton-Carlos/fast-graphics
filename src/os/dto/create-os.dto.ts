@@ -7,7 +7,7 @@ import {
   IsUUID,
   Min,
 } from 'class-validator';
-import { ServiceType } from '../entities/os.entity';
+import { ServiceType } from '../enums/service-type.enum';
 
 export class CreateOsDto {
   @IsEnum(ServiceType)

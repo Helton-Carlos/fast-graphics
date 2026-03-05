@@ -9,11 +9,7 @@ import {
 } from 'typeorm';
 import { User } from '../../user/entities/user.entity';
 import { Client } from '../../client/entities/client.entity';
-
-export enum ServiceType {
-  ADESIVO = 'adesivo',
-  LONA = 'lona',
-}
+import { ServiceType } from '../enums/service-type.enum';
 
 @Entity('orders')
 export class OS {
